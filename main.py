@@ -64,13 +64,10 @@ def evaluateMove(row1, row2, row3, allFields):
     print("moooooooove")
     #allFields = [row1[0], row1[1], row1[2], row2[0], row2[1], row2[2], row3[0], row3[1], row3[2]]
     
+    circleCords = ai.evaluateMove(allFields)
 
-    
 
-    circleX = 0
-    circleY = 0
-
-    #placeCircle(circleX, circleY)
+    placeCircle(circleCords["x"], circleCords["y"])
     #currentTurn = 0
 
 
@@ -83,6 +80,8 @@ while not crashed:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             crashed = True
+
+        # Place cross on mouse click
         if event.type == pygame.MOUSEBUTTONDOWN:# and currentTurn == 0:
             if event.pos[0] > max0 and event.pos[0] < max1 and event.pos[1] > max0 and event.pos[1] < max1:
                 placeCross(0, 0)
@@ -122,8 +121,10 @@ while not crashed:
 
             currentTurn = 1
 
+            # Merge list of three rows to one list
             allFields = [row1[0], row1[1], row1[2], row2[0], row2[1], row2[2], row3[0], row3[1], row3[2]]
 
+            # Check for win and color the window accoring to winner
             winner = ai.checkForWin(allFields, winner)
             if winner == "cross":
                 print ("CROSS WINS")
