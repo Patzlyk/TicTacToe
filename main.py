@@ -124,18 +124,23 @@ while not crashed:
             # Merge list of three rows to one list
             allFields = [row1[0], row1[1], row1[2], row2[0], row2[1], row2[2], row3[0], row3[1], row3[2]]
 
+            evaluateMove(row1, row2, row3, allFields)
+
+            # Merge list of three rows to one list
+            allFields = [row1[0], row1[1], row1[2], row2[0], row2[1], row2[2], row3[0], row3[1], row3[2]]
+
             # Check for win and color the window accoring to winner
             winner = ai.checkForWin(allFields, winner)
             if winner == "cross":
                 print ("CROSS WINS")
-                gameDisplay.fill((150, 0, 0))
+                #gameDisplay.fill((150, 0, 0))
             elif winner == "circle":
                 print ("CIRCLE WINS")
-                gameDisplay.fill((0, 0, 150))
+                #gameDisplay.fill((0, 0, 150))
             else:
                 print("nobody wins")
 
-            evaluateMove(row1, row2, row3, allFields)
+
 
             print(row1)
             print(row2)

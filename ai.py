@@ -70,9 +70,10 @@ def checkForWin(allFields, winner):
 def evaluateMove(allFields):
     print("Evaluating next move")
 
-    circleCords = dict()
-    circleCords["x"] = 0
-    circleCords["y"] = 0
+    circleCords = {
+        "x": 0,
+        "y": 0
+    }
 
     winningFields = {
         "horizontal1": [allFields[0], allFields[1], allFields[2]],
@@ -100,7 +101,23 @@ def evaluateMove(allFields):
         "diagonal2":  False
     }
 
+    FieldSetCordinates = {
+        "horizontal1": [0, 1, 2],
+        "horizontal2": [3, 4, 5],
+        "horizontal3": [6, 7, 8],
+
+        "vertical1":  [0, 3, 6],
+        "vertical2":  [1, 4, 7],
+        "vertical3":  [2, 5, 8],
+
+        "diagonal1":  [0, 4, 8],
+        "diagonal2":  [6, 4, 2]
+    }
+
+
+
     currentIteration = 0
+    # Filter out fields that already have a cross placed in them
     for winningField in winningFields:
         currentWinningField = winningFields[winningField]
         print("Currently checked field:" + str(currentWinningField))
@@ -125,5 +142,56 @@ def evaluateMove(allFields):
             print("This field is not availible")
         currentIteration += 1
 
+    # Cycle through availible fields and find the best
+    bestField = ""
+    bestFieldSum = 0
 
+    for availibleField in winningFields:
+        #print(availibleField)
+        fieldSum = 0
+
+        if isFieldAvailible[availibleField] == True:
+            fieldSum = winningFields[availibleField][0] + winningFields[availibleField][1] + winningFields[availibleField][2]
+            print(fieldSum)
+            if fieldSum > bestFieldSum:
+                bestFieldSum = fieldSum
+                bestField = availibleField
+
+    print("a")
+
+    if bestField == "":
+        i = 0
+        for availibleStartingFieldSet in winningFields:
+            if isFieldAvailible[availibleStartingFieldSet] == True:
+                bestField = availibleStartingFieldSet
+                break
+
+    if bestField != "":
+        i = 0
+        for circleField in winningFields[bestField]:
+            print(circleField)
+            if circleField == 2:
+                i += 1
+                continue
+            elif circleField == 0:
+                circleShortCord = FieldSetCordinates[bestField][i]
+
+                print("circleShortCord: " + str(circleShortCord))
+
+                if circleShortCord <= 2:
+                    circleCords["x"] = circleShortCord
+                    circleCords["y"] = 0
+                elif circleShortCord <= 5:
+                    circleCords["x"] = circleShortCord - 3
+                    circleCords["y"] = 1
+                elif circleShortCord <= 8:
+                    circleCords["x"] = circleShortCord - 6
+                    circleCords["y"] = 2
+
+                i += 1
+                break
+
+
+
+    print("Returning circleCords")
     return circleCords
